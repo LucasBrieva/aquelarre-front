@@ -1,0 +1,29 @@
+/* dialog-nuevo-vino.component.css */
+.dialog-container {
+  position: fixed;
+  top: 20px;
+  right: 0; /* Alinea el diálogo a la derecha */
+  height: 100%; /* Ocupa todo el alto de la ventana */
+  width: 40%; /* Ajusta el ancho según tus necesidades */
+  background-color: #fff; /* Fondo blanco para el diálogo */
+  z-index: 1000;
+  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
+  transform: translateX(100%); /* Inicialmente, el diálogo está fuera de la pantalla a la derecha */
+  transition: transform 0.5s ease-in-out; /* Agrega animación de deslizamiento */
+}
+
+.dialog-show {
+  transform: translateX(0); /* Mostrar el diálogo deslizándolo desde la derecha */
+}
+.dialog-content {
+  height: 100%; /* Hace que el contenido del diálogo ocupe todo el alto disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Alinea el contenido verticalmente */
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  margin-top: 10px; /* Añade un espacio entre el contenido y los botones */
+}

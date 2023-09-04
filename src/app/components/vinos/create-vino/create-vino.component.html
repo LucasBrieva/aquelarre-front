@@ -1,0 +1,51 @@
+<!-- dialog-nuevo-vino.component.html -->
+<div [@slideInOut] class="dialog-container dialog-show">
+    <form #registroForm="ngForm"  (ngSubmit)="guardar(registroForm)">
+        <div class="card box-shadow-sm">
+            <div class="card-header">
+                <h5 style="margin-bottom: 0px;">Crear vino</h5>
+                <p>Rellene los siguientes datos</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 form-group">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre del vino" name="nombre"
+                            [(ngModel)]="vino.nombre" required>
+                    </div>
+                    <div class="col-lg-6 col-md-6 form-group">
+                        <label class="form-label">Código</label>
+                        <input class="form-control" type="text" placeholder="Código del vino" name="codigo"
+                            [(ngModel)]="vino.codigo" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" type="text" placeholder="Descripción del vino" name="descripcion"
+                            [(ngModel)]="vino.descripcion" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mb-2 form-group">
+                        <label for="">Portada</label>
+                        <div class="custom-file mb-2">
+                            <input class="custom-file-input" type="file" id="file-input"
+                                (change)="fileChangeEvent($event)">
+                            <label class="custom-file-label" id="portadaText" for="file-input"
+                                style="white-space: nowrap; overflow: hidden">Seleccionar imagen</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer mb-3">
+                <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Crear vino</button>
+                <button *ngIf="load_btn" type="button" class="btn btn-secondary" disabled>
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Creando...
+                </button>
+                <button class="btn btn-secondary mr-3" (click)="cancelar()">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,81 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import { state, style, transition, trigger, animate } from '@angular/animations';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AdminService } from 'src/app/services/admin.service';
-import { VinoService } from 'src/app/services/vino.service';
-import { HelperService } from 'src/app/services/helper.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { VinoService } from 'src/app/services/vino.service';
+import { VinoType } from 'src/app/types/vino.type';
 
-declare var iziToast: any;
 declare var jquery: any;
 declare var $: any;
 @Component({
   selector: 'app-create-vino',
   templateUrl: './create-vino.component.html',
-  styleUrls: ['./create-vino.component.css']
+  styleUrls: ['./create-vino.component.css'],
 })
 export class CreateVinoComponent implements OnInit {
 
-  public vino: any = {
-    categoria: '',
-  };
-  public file: any = undefined;
-  public imgSelect: any | ArrayBuffer = 'assets/img/default-product.png';
-  public config_text: any = {};
-  public token: any;
+  public vino: VinoType ={};
   public load_btn = false;
-  private validation = {
-    isValid: true,
-    mensaje: "",
-    tituloMensaje: ""
-  };
+  public imgSelect: any | ArrayBuffer = 'assets/img/default-product.png';
+  public file: any = undefined;
 
   constructor(
     private _vinoService: VinoService,
-    private _adminService: AdminService,
     private _router: Router,
-    private _helperService: HelperService,
-    private _authService: AuthService
+    public dialogRef: MatDialogRef<CreateVinoComponent>,
+    private _helperService: HelperService
+
   ) {
-    this.token = this._authService.getToken();
   }
 
   ngOnInit(): void {
   }
 
-  registro(registroForm: any) {
+  guardar(registroForm) {
     if (registroForm.valid) {
       if (this.file == undefined) {
         this._helperService.iziToast('Debe subir una portada para registrar', 'ERROR', false);
       }
       else {
         this.load_btn = true;
-        this.validation = this._vinoService.validar_datos_vino(this.vino);
-        if (this.validation.isValid) {
-          this._vinoService.registro_vino(this.vino, this.file, this.token).subscribe(
-            response => {
-              this._helperService.iziToast('Vino, ' + this.vino.name + ', fue creado correctamente', 'Vino creado', true);
-              this.vino = {
-                name: '',
-                code: '',
-                descripcion: '',
-                contenido: '',
-                regionOrigen: '',
-                anoCosecha: '',
-                proveedor: '',
-                maridajeDeComida: '',
-              };
-              this.load_btn = false;
-              this._router.navigate(['/panel/vinos']);
-            },
-            error => {
-              this._helperService.iziToast('No se pudo crear el vino', 'ERROR', false);
-              this.load_btn = false;
-            }
-          );
-        }
-        else {
-          this._helperService.iziToast(this.validation.mensaje, this.validation.tituloMensaje, this.validation.isValid);
-        }
+        this._vinoService.registro_vino_admin(this.vino, this.file).subscribe(
+          response => {
+            this._helperService.iziToast('Vino, ' + this.vino.nombre + ', fue creado correctamente', 'Vino creado', true);
+            this.vino = {};
+            this.load_btn = false;
+            this.dialogRef.close();
+          },
+          error => {
+            debugger;
+            this._helperService.iziToast(error.error.message, 'ERROR', false);
+            this.load_btn = false;
+          }
+        );
       }
       this.load_btn = false;
     } else {
@@ -85,7 +62,13 @@ export class CreateVinoComponent implements OnInit {
       this.imgSelect = 'assets/img/default-product.png'
       $("#portadaText").text('Seleccionar imagen');
       this.file = undefined;
+      this.dialogRef.close();
     }
+  }
+
+  cancelar() {
+    // Cierra el diálogo sin guardar cambios
+    this.dialogRef.close();
   }
 
   fileChangeEvent(event: any): void {
@@ -101,7 +84,7 @@ export class CreateVinoComponent implements OnInit {
     //Verifico que el tamaño de la imagen no sea superior a 4 mb.
     if (file.size <= 4000000) {
       //
-      if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg') {
+      if (file.type == 'image/png' || file.type == 'image/webp' || file.type == 'image/jpg' || file.type == 'image/gif' || file.type == 'image/jpeg') {
 
         const reader = new FileReader();
         //Obtengo la imagen en base 64,cadena extensa que genera imagen
@@ -126,7 +109,7 @@ export class CreateVinoComponent implements OnInit {
       $("#portadaText").text('Seleccionar imagen');
       this.file = undefined;
     }
-
   }
-  
+
+
 }

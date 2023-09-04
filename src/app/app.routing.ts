@@ -9,15 +9,10 @@ import { IndexClienteComponent } from "./components/clientes/index-cliente/index
 import { CreateClienteComponent } from "./components/clientes/create-cliente/create-cliente.component";
 import { EditClienteComponent } from "./components/clientes/edit-cliente/edit-cliente.component";
 
-import { CreateProductoComponent } from "./components/productos/create-producto/create-producto.component";
-import { IndexProductoComponent } from "./components/productos/index-producto/index-producto.component";
-import { EditProductoComponent } from "./components/productos/edit-producto/edit-producto.component";
-import { InventarioProductoComponent } from "./components/productos/inventario-producto/inventario-producto.component";
-
 import { CreateCuponComponent } from "./components/cupones/create-cupon/create-cupon.component";
 import { IndexCuponComponent } from "./components/cupones/index-cupon/index-cupon.component";
 import { EditCuponComponent } from "./components/cupones/edit-cupon/edit-cupon.component";
-import { VariedadProductoComponent } from "./components/productos/variedad-producto/variedad-producto.component";
+import { IndexVinoComponent } from "./components/vinos/index-vinos/index-vino.component";
 
 const appRoute : Routes =[
     {path: '', redirectTo: 'inicio', pathMatch:'full'},
@@ -29,11 +24,7 @@ const appRoute : Routes =[
         {path:'clientes/registro', component:CreateClienteComponent, canActivate:[AdminGuard]},
         {path:'clientes/:id', component:EditClienteComponent, canActivate:[AdminGuard]},
 
-        {path:'productos/registro', component:CreateProductoComponent, canActivate:[AdminGuard]},
-        {path:'productos/:id', component:EditProductoComponent, canActivate:[AdminGuard]},
-        {path:'productos/inventario/:id', component:InventarioProductoComponent, canActivate:[AdminGuard]},
-        {path:'productos/variedades/:id', component:VariedadProductoComponent, canActivate:[AdminGuard]},
-        {path:'productos', component:IndexProductoComponent, canActivate:[AdminGuard]},
+        {path:'vinos', component:IndexVinoComponent, canActivate:[AdminGuard]},
 
         {path:'cupones/registro', component:CreateCuponComponent, canActivate:[AdminGuard]},
         {path:'cupones', component:IndexCuponComponent, canActivate:[AdminGuard]},

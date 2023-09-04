@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap"
+import { HttpClientModule } from '@angular/common/http';
+import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxTinymceModule } from 'ngx-tinymce';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,15 +14,14 @@ import { LoginComponent } from './components/login/login.component';
 import { IndexClienteComponent } from './components/clientes/index-cliente/index-cliente.component';
 import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 import { EditClienteComponent } from './components/clientes/edit-cliente/edit-cliente.component';
-import { CreateProductoComponent } from './components/productos/create-producto/create-producto.component';
-import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
-import { EditProductoComponent } from './components/productos/edit-producto/edit-producto.component';
-import { InventarioProductoComponent } from './components/productos/inventario-producto/inventario-producto.component';
 import { CreateCuponComponent } from './components/cupones/create-cupon/create-cupon.component';
 import { IndexCuponComponent } from './components/cupones/index-cupon/index-cupon.component';
 import { EditCuponComponent } from './components/cupones/edit-cupon/edit-cupon.component';
-import { VariedadProductoComponent } from './components/productos/variedad-producto/variedad-producto.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IndexVinoComponent } from './components/vinos/index-vinos/index-vino.component';
+import { CreateVinoComponent } from './components/vinos/create-vino/create-vino.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -33,14 +32,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IndexClienteComponent,
     CreateClienteComponent,
     EditClienteComponent,
-    CreateProductoComponent,
-    IndexProductoComponent,
-    EditProductoComponent,
-    InventarioProductoComponent,
     CreateCuponComponent,
     IndexCuponComponent,
     EditCuponComponent,
-    VariedadProductoComponent,
+    IndexVinoComponent,
+    CreateVinoComponent
   ],
   imports: [
     BrowserModule,
@@ -52,10 +48,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgxTinymceModule.forRoot({
       baseURL: '../../../assets/tinymce/',
     }),
-    BrowserAnimationsModule
-
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
