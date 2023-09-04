@@ -66,6 +66,7 @@ export class VinoService {
     //#region PUT
 
     actualizar_vino_admin(data: any, id: any): Observable<any> {
+        debugger;
         if (data.portada) {
             let headers = new HttpHeaders({ 'Authorization': this.token });
 

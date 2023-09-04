@@ -40,7 +40,7 @@
               <td>{{item.codigo}}</td>
               <td>
                 <a type="button" class="btn btn-sm btn-outline-info rounded-pill btn-icon mr-2" data-tooltip="Editar"
-                  data-tooltip-location="top" [routerLink]="['/panel/vinos',item._id]">
+                  data-tooltip-location="top" (click)="abrirDialogNuevoVino(item)">
                   <i class="fa fa-pencil mt-n1 align-middle"></i>
                 </a>
                 <button style="cursor: pointer;" data-toggle="modal" data-tooltip="Eliminar" data-tooltip-location="top"

@@ -1,7 +1,8 @@
 import { state, style, transition, trigger, animate } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GLOBAL } from 'src/app/services/GLOBAL';
 import { AuthService } from 'src/app/services/auth.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { VinoService } from 'src/app/services/vino.service';
@@ -16,26 +17,33 @@ declare var $: any;
 })
 export class CreateVinoComponent implements OnInit {
 
-  public vino: VinoType ={};
+  public vino: VinoType = {};
   public load_btn = false;
   public imgSelect: any | ArrayBuffer = 'assets/img/default-product.png';
   public file: any = undefined;
+  public url: any;
+  public imgText: string = "Selecciona una portada";
 
   constructor(
     private _vinoService: VinoService,
-    private _router: Router,
     public dialogRef: MatDialogRef<CreateVinoComponent>,
-    private _helperService: HelperService
-
+    private _helperService: HelperService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.url = GLOBAL.url;
+    if (data) {
+      this.vino = data;
+      this.imgText = this.vino.portadaNombre
+      this.imgSelect = this.url + "obtener_portada/" + this.vino.portada;
+    }
   }
 
   ngOnInit(): void {
   }
 
-  guardar(registroForm) {
-    if (registroForm.valid) {
-      if (this.file == undefined) {
+  guardar(createForm) {
+    if (createForm.valid) {
+      if (this.file) {
         this._helperService.iziToast('Debe subir una portada para registrar', 'ERROR', false);
       }
       else {
@@ -64,6 +72,37 @@ export class CreateVinoComponent implements OnInit {
       this.file = undefined;
       this.dialogRef.close();
     }
+  }
+
+  actualizar(updateForm) {
+    if (updateForm.valid) {
+      this.load_btn = true;
+      debugger;
+      const data: VinoType = {
+        ...this.vino,
+        portada: null
+      }
+      if (this.file) {
+        data.portada = this.file
+      }
+
+      this._vinoService.actualizar_vino_admin(data, data._id).subscribe(
+        response => {
+          this._helperService.iziToast(this.vino.nombre + ', fue actualizado correctamente', 'Vino actualizado', true);
+          this.load_btn = false;
+          this.dialogRef.close();
+        },
+        error => {
+          this._helperService.iziToast('No se pudo actualizar el vino', 'ERROR', false);
+          this.load_btn = false;
+        }
+      )
+    }
+    else {
+      this._helperService.iziToast('No se pudo actualizar el vino', 'ERROR', false);
+      this.load_btn = false;
+    }
+
   }
 
   cancelar() {
@@ -104,12 +143,9 @@ export class CreateVinoComponent implements OnInit {
       }
     } else {
       this._helperService.iziToast('La imagén no puede superar los 4MB', 'ERROR', false);
-
       this.imgSelect = 'assets/img/default-product.png';
       $("#portadaText").text('Seleccionar imagen');
       this.file = undefined;
     }
   }
-
-
 }

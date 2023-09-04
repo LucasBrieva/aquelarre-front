@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { VinoService } from 'src/app/services/vino.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateVinoComponent } from '../create-vino/create-vino.component';
+import { VinoType } from 'src/app/types/vino.type';
 
 declare var iziToast: any;
 declare var jquery: any;
@@ -63,8 +64,9 @@ export class IndexVinoComponent implements OnInit {
     this.metFiltro();
   }
 
-  abrirDialogNuevoVino() {
+  abrirDialogNuevoVino(data?: VinoType) {
     const dialogRef = this.dialog.open(CreateVinoComponent, {
+      data: data,
     });
   
     dialogRef.afterClosed().subscribe((result) => {
